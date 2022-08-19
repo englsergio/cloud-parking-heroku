@@ -11,25 +11,26 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @Component
-@Entity
+//@Entity
 public class Parking {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column
+    public Parking(String id, String license, String state, String model, String color) {
+        this.id = id;
+        this.license = license;
+        this.state = state;
+        this.model = model;
+        this.color = color;
+    }
+
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
     private String license;
-    @Column
     private String state;
-    @Column
     private String model;
-    @Column
     private String color;
-    @Column
     private LocalDateTime entryDate;
-    @Column
     private LocalDateTime exitDate;
-    @Column
     private Double bill;
 
 }
