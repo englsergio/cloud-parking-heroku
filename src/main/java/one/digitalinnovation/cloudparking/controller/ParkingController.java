@@ -1,5 +1,7 @@
 package one.digitalinnovation.cloudparking.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import one.digitalinnovation.cloudparking.dto.ParkingCreateDTO;
 import one.digitalinnovation.cloudparking.dto.ParkingDTO;
 import one.digitalinnovation.cloudparking.mapper.ParkingMapper;
@@ -13,10 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/parking/v1")
+@Api(tags = "Parking Controller")
 public class ParkingController {
 
-    ParkingService parkingService;
-    ParkingMapper parkingMapper;
+    private final ParkingService parkingService;
+    private final ParkingMapper parkingMapper;
     public ParkingController(
             ParkingService parkingService,
             ParkingMapper parkingMapper) {
@@ -25,6 +28,7 @@ public class ParkingController {
     }
 
     @GetMapping
+    @ApiOperation("Find all parkings")
     public ResponseEntity<List<ParkingDTO>> findAll() {
         List<Parking> parkingList = parkingService.findAll();
         List<ParkingDTO> parkingDTOList = parkingMapper.toParkingDTOList(parkingList);
@@ -38,7 +42,7 @@ public class ParkingController {
         return ResponseEntity.ok(parkingDTO);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ParkingDTO> create(@RequestBody ParkingCreateDTO dto) {
         Parking parking = parkingMapper.toParking(dto);
         parkingService.create(parking);
@@ -46,6 +50,20 @@ public class ParkingController {
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingDTO);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable String id) {
+        parkingService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ParkingDTO> update(@RequestBody ParkingDTO dto,
+                                             @PathVariable String id) {
+        Parking parking = parkingMapper.toParking(dto);
+        Parking parkingResponse = parkingService.update(parking, id);
+        ParkingDTO dtoResponse = parkingMapper.toParkingDTO(parkingResponse);
+        return ResponseEntity.ok(dtoResponse);
+    }
 //    @GetMapping("/param")
 //    public Parking getById(@RequestParam Long id) {
 //        return parkingService.findById(id).get();

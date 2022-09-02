@@ -23,11 +23,33 @@ public class ParkingMapper {
     public Parking toParking(ParkingDTO dto) {
         return  MODEL_MAPPER.map(dto, Parking.class);
     }
-
     public Parking toParking(ParkingCreateDTO dto) {
         return  MODEL_MAPPER.map(dto, Parking.class);
     }
-
+    public Parking parkingUpdate(Parking update, Parking parking) {
+        if(update.getEntryDate() != null) {
+            parking.setEntryDate(update.getEntryDate());
+        }
+        if(update.getBill() != null) {
+            parking.setBill(update.getBill());
+        }
+        if(update.getLicense() != null) {
+            parking.setLicense(update.getLicense());
+        }
+        if(update.getColor() != null) {
+            parking.setColor(update.getColor());
+        }
+        if(update.getModel() != null) {
+            parking.setModel(update.getModel());
+        }
+        if(update.getState() != null) {
+            parking.setState(update.getState());
+        }
+        if(update.getExitDate() != null) {
+            parking.setExitDate(update.getExitDate());
+        }
+        return parking;
+    }
     public List<ParkingDTO> toParkingDTOList(List<Parking> parkingList) {
         return parkingList.stream()
                 .map(this::toParkingDTO)

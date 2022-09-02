@@ -1,8 +1,13 @@
 package one.digitalinnovation.cloudparking.service;
 
 import one.digitalinnovation.cloudparking.dto.ParkingDTO;
+import one.digitalinnovation.cloudparking.exception.ParkingNotFoundException;
+import one.digitalinnovation.cloudparking.mapper.ParkingMapper;
 import one.digitalinnovation.cloudparking.model.Parking;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -11,6 +16,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class ParkingService {
+
+    private final ParkingMapper parkingMapper;
+    public ParkingService(ParkingMapper parkingMapper) {
+        this.parkingMapper = parkingMapper;
+    }
 
     private static Map<String, Parking> parkingMap = new HashMap<>();
 
@@ -34,7 +44,21 @@ public class ParkingService {
 
     public Parking findById(String id) {
         Parking parking = parkingMap.get(id);
+        if (parking == null) throw new ParkingNotFoundException(id);
         return parking;
+    }
+    public void delete(String id) {
+        Parking parking = parkingMap.get(id);
+        if (parking == null) throw new ParkingNotFoundException(id);
+        parkingMap.remove(id);
+    }
+
+    public Parking update(Parking update, String id) {
+        Parking parking = parkingMap.get(id);
+        if (parking == null) throw new ParkingNotFoundException(id);
+        Parking parkingUpdated = parkingMapper.parkingUpdate(update, parking);
+        parkingMap.replace(id, parkingUpdated);
+        return parkingUpdated;
     }
 
     public Parking create(Parking parkingCreate) {
