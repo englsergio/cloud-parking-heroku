@@ -64,6 +64,13 @@ public class ParkingController {
         ParkingDTO dtoResponse = parkingMapper.toParkingDTO(parkingResponse);
         return ResponseEntity.ok(dtoResponse);
     }
+
+    @PostMapping("/checkout/{id}")
+    public ResponseEntity<ParkingDTO> checkout(@PathVariable String id) {
+        Parking parking = parkingService.checkout(id);
+        ParkingDTO parkingDTO = parkingMapper.toParkingDTO(parking);
+        return ResponseEntity.ok(parkingDTO);
+    }
 //    @GetMapping("/param")
 //    public Parking getById(@RequestParam Long id) {
 //        return parkingService.findById(id).get();

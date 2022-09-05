@@ -2,16 +2,19 @@ package one.digitalinnovation.cloudparking.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import one.digitalinnovation.cloudparking.service.ParkingCheckout;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @Component
-//@Entity
+@Entity
 public class Parking {
 
     public Parking(String id, String license, String state, String model, String color) {
@@ -21,9 +24,9 @@ public class Parking {
         this.model = model;
         this.color = color;
     }
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private static final Double PRICE_PER_HOUR = 12.5;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private String license;
     private String state;
