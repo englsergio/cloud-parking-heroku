@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ParkingService {
@@ -66,7 +67,7 @@ public class ParkingService {
 
     public Parking create(Parking parking) {
 //        String id = UUID.randomUUID().toString();
-//        parkingCreate.setId(id);
+//        parking.setId(id);
         parking.setEntryDate(LocalDateTime.now());
         parkingRepository.save(parking);
         return parkingRepository.getReferenceById(parking.getId());

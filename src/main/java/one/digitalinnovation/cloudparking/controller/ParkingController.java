@@ -44,7 +44,7 @@ public class ParkingController {
 
     @PostMapping("/create")
     public ResponseEntity<ParkingDTO> create(@RequestBody ParkingCreateDTO dto) {
-        Parking parking = parkingMapper.toParking(dto);
+        Parking parking = new Parking(dto);
         parkingService.create(parking);
         ParkingDTO parkingDTO = parkingMapper.toParkingDTO(parking);
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingDTO);

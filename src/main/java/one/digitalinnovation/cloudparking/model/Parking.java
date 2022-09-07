@@ -2,6 +2,7 @@ package one.digitalinnovation.cloudparking.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import one.digitalinnovation.cloudparking.dto.ParkingCreateDTO;
 import one.digitalinnovation.cloudparking.service.ParkingCheckout;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,12 @@ public class Parking {
         this.state = state;
         this.model = model;
         this.color = color;
+    }
+    public Parking(ParkingCreateDTO dto) {
+        this.license = dto.getLicense();
+        this.state = dto.getState();
+        this.model = dto.getModel();
+        this.color = dto.getColor();
     }
     private static final Double PRICE_PER_HOUR = 12.5;
     @Id
